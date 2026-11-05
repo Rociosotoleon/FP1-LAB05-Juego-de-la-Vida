@@ -37,8 +37,8 @@ def crear_tablero_aleatorio(filas: int, columnas: int, probabilidad_vida: float)
     """
     tablero = crear_tablero(filas, columnas)
    
-    for i in len(tablero):
-        for j in len(tablero[0]):
+    for i in range(len(tablero)):
+        for j in range(len(tablero[0])):
             if random.random() < probabilidad_vida:
                 tablero[i][j] = True
 
@@ -54,8 +54,12 @@ def insertar_patron(tablero: list[list[bool]], patron: list[list[bool]], pos_fil
         pos_fila (int): La fila en la que se insertará la esquina superior izquierda del patrón.
         pos_col (int): La columna en la que se insertará la esquina superior izquierda del patrón.
     """
-    # TODO: Ejercicio 3
-    pass
+    for i in range(len(patron)):
+        for j in range(len(patron[0])):
+            if i + pos_fila < len(tablero) and j + pos_col < len(tablero[0]):
+                tablero[i + pos_fila][j + pos_col] = patron[i][j]
+    return tablero
+
 
 def contar_vecinos(tablero: list[list[bool]], fila: int, col: int) -> int:
     """
@@ -68,8 +72,19 @@ def contar_vecinos(tablero: list[list[bool]], fila: int, col: int) -> int:
     Devuelve:
         El número de vecinos vivos (int).
     """
-    # TODO: Ejercicio 4
-    pass
+    num_filas = len(tablero)
+    num_columnas = len(tablero[0])
+    res = 0
+    
+    for i in range(-1, 2):
+        for j in range(-1, 2):
+            if not(i == 0 and j ==0):
+                if tablero[(i + fila)%num_filas][(j + col) % num_columnas] == True:
+                    res += 1
+        
+    return res
+
+
 
 def calcular_siguiente_generacion(tablero) -> list[list[bool]]:
     """
@@ -80,5 +95,14 @@ def calcular_siguiente_generacion(tablero) -> list[list[bool]]:
     Devuelve:
         Una nueva lista de listas que representa el tablero en la siguiente generación.
     """
-    # TODO: Ejercicio 5
-    pass
+    res = crear_tablero(len(tablero), len(tablero[0]))
+    for i in range(len(tablero)):
+        for j in range(len(tablero[0])):
+            num_vecinos = contar_vecinos(tablero, i, j)
+            if tablero[i][j] == True and (num_vecinos == 2 or num_vecinos == 3):
+                res[i][j] = True
+            elif tablero[i][j] == False and num_vecinos == 3:
+                res[i][j] = True
+            else:
+                res[i][j] = False
+    return res 
