@@ -9,8 +9,18 @@ def crear_tablero(filas: int, columnas: int) -> list[list[bool]]:
     Devuelve:
         Una lista de listas con todos los elementos False.
     """
-    # TODO: Ejercicio 1
-    pass
+    fila_matriz = []
+    matriz = []
+    
+    for i in range(filas):
+        for j in range(columnas):
+            fila_matriz.append(False)
+        matriz.append(fila_matriz)
+        fila_matriz = []
+    return matriz
+        
+
+
 
 def crear_tablero_aleatorio(filas: int, columnas: int, probabilidad_vida: float) -> list[list[bool]]:
     """
@@ -25,8 +35,15 @@ def crear_tablero_aleatorio(filas: int, columnas: int, probabilidad_vida: float)
     Devuelve:
         Una lista de listas que representa el tablero con células vivas (True) y muertas (False).
     """
-    # TODO: Ejercicio 2
-    pass
+    tablero = crear_tablero(filas, columnas)
+   
+    for i in len(tablero):
+        for j in len(tablero[0]):
+            if random.random() < probabilidad_vida:
+                tablero[i][j] = True
+
+    return tablero
+
 
 def insertar_patron(tablero: list[list[bool]], patron: list[list[bool]], pos_fila: int, pos_col: int):
     """
